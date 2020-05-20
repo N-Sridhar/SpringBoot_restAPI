@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vgs.restapi.model.Tutorial;
 import com.vgs.restapi.repo.Repo;
 
-//@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 public class Controller {
@@ -34,9 +35,9 @@ public class Controller {
 			List<Tutorial> tutorials = new ArrayList<Tutorial>();
 
 			if (title == null) {
-				repo.findAll().forEach(tutorials::add);;
+				repo.findAll().forEach(tutorials::add);
 			} else {
-				repo.findByName(title).forEach(tutorials::add);
+				repo.findByTitle(title).forEach(tutorials::add);
 			} 	
 
 			if (tutorials.isEmpty()) {
@@ -77,7 +78,7 @@ public class Controller {
 	@PostMapping("/tutorials")
 	public ResponseEntity<Tutorial> create(@RequestBody Tutorial t) {
 		try {
-			Tutorial tutorial = repo.save(new Tutorial(t.getName(), t.getDescription(), false));
+			Tutorial tutorial = repo.save(new Tutorial(t.getTitle(), t.getDescription(), false));
 			return new ResponseEntity<>(tutorial, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
@@ -89,7 +90,7 @@ public class Controller {
 		Optional<Tutorial> tdata = repo.findById(id);
 		if(tdata.isPresent()) {
 			Tutorial t = tdata.get();
-			t.setName(tutorial.getName());
+			t.setTitle(tutorial.getTitle());
 			t.setDescription(tutorial.getDescription());
 			t.setPublished(tutorial.isPublished());
 			return new ResponseEntity<>(repo.save(t), HttpStatus.OK);

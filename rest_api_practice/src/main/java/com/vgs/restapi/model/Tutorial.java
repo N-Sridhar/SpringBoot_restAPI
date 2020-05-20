@@ -10,7 +10,7 @@ public class Tutorial {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	private String name;
+	private String title;
 	private String description;
 	private boolean published;
 	
@@ -18,9 +18,9 @@ public class Tutorial {
 		super();
 	}
 	
-	public Tutorial(String name, String description, boolean published) {
+	public Tutorial(String title, String description, boolean published) {
 		super();
-		this.name = name;
+		this.title = title;
 		this.description = description;
 		this.published = published;
 	}
@@ -31,11 +31,11 @@ public class Tutorial {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public String getDescription() {
 		return description;
@@ -52,7 +52,7 @@ public class Tutorial {
 
 	@Override
 	public String toString() {
-		return "Tutorial [id=" + id + ", name=" + name + ", description=" + description + ", publised=" + published
+		return "Tutorial [id=" + id + ", title=" + title + ", description=" + description + ", publised=" + published
 				+ "]";
 	}
 }
